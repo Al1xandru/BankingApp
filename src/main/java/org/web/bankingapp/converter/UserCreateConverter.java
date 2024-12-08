@@ -1,10 +1,12 @@
 package org.web.bankingapp.converter;
 
+import org.springframework.stereotype.Component;
 import org.web.bankingapp.dto.UserCreateDto;
 import org.web.bankingapp.dto.UserResponseDto;
 import org.web.bankingapp.entity.Account;
 import org.web.bankingapp.entity.User;
 
+@Component
 public class UserCreateConverter implements Converter<User, UserCreateDto, UserResponseDto> {
 
     @Override

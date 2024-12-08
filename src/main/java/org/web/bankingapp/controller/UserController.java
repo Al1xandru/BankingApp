@@ -1,7 +1,11 @@
 package org.web.bankingapp.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.web.bankingapp.dto.UserCreateDto;
+import org.web.bankingapp.dto.UserResponseDto;
 import org.web.bankingapp.entity.User;
 import org.web.bankingapp.service.UserService;
 
@@ -18,7 +22,9 @@ public class UserController {
     public List<User> getAll() { return userService.getAll(); }
 
     @PostMapping
-    public User create(@RequestBody User user) { return userService.create(user); }
+    public ResponseEntity<UserResponseDto> create(@RequestBody @Valid UserCreateDto userCreateDto) {
+        return ResponseEntity.ok(userService.create(userCreateDto));
+    }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) { userService.delete(id);}
