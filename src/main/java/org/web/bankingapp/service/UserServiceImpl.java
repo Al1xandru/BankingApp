@@ -43,12 +43,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto getByUsername(String username) {
-        User user = usersRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = usersRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
         return userCreateConverter.toDto(user);
     }
 
     @Override
     public void delete(Long id) {
+        if (!usersRepository.existsById(id)) {
+            throw new RuntimeException("User not found");
+        }
         usersRepository.deleteById(id);
     }
 }

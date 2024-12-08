@@ -19,7 +19,22 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public List<User> getAll() { return userService.getAll(); }
+    public ResponseEntity<List<UserResponseDto>> getAll() {
+        List<UserResponseDto> users = userService.getAll();
+        return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponseDto> getUserById(@PathVariable Long id) {
+        UserResponseDto user = userService.getById(id);
+        return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<UserResponseDto> getUserByUsername(@RequestParam String username) {
+        UserResponseDto user = userService.getByUsername(username);
+        return ResponseEntity.ok(user);
+    }
 
     @PostMapping
     public ResponseEntity<UserResponseDto> create(@RequestBody @Valid UserCreateDto userCreateDto) {
@@ -27,5 +42,8 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) { userService.delete(id);}
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        userService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
