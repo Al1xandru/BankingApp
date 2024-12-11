@@ -4,12 +4,14 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.web.bankingapp.converter.Converter;
 import org.web.bankingapp.dto.UserCreateDto;
 import org.web.bankingapp.dto.UserResponseDto;
 import org.web.bankingapp.entity.User;
 import org.web.bankingapp.service.UserService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users")
@@ -18,28 +20,37 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private Converter<User, UserCreateDto, UserResponseDto> createConverter;
+
     @GetMapping
-    public ResponseEntity<List<UserResponseDto>> getAll() {
-        return null;
+    public List<UserResponseDto> getAll() {
+        return userService.getAll().stream()
+                .map(user -> createConverter.toDto(user))
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDto> getUserById(@PathVariable Long id) {
-        return null;
+    public UserResponseDto getUserById(@PathVariable Long id) {
+        return createConverter.toDto(userService.getById(id));
     }
 
     @GetMapping("/search")
-    public ResponseEntity<UserResponseDto> getUserByUsername(@RequestParam String username) {
-        return null;
+    public UserResponseDto getUserByUsername(@RequestParam String username) {
+        return createConverter.toDto(userService.getByUsername(username));
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDto> create(@RequestBody @Valid UserCreateDto userCreateDto) {
-        return null;
+    public UserResponseDto create(@RequestBody @Valid UserCreateDto userCreateDto) {
+        User user = createConverter.toEntity(userCreateDto);
+        user.setUsername(userCreateDto.getUsername());
+        user.setPassword(userCreateDto.getPassword());
+        user.setPassword(userCreateDto.getPassword());
+        return createConverter.toDto(userService.create(user));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        return null;
+    public void deleteUser(@PathVariable Long id) {
+        userService.delete(id);
     }
 }
