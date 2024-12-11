@@ -20,30 +20,26 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserResponseDto>> getAll() {
-        List<UserResponseDto> users = userService.getAll();
-        return ResponseEntity.ok(users);
+        return null;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDto> getUserById(@PathVariable Long id) {
-        UserResponseDto user = userService.getById(id);
-        return ResponseEntity.ok(user);
+        return null;
     }
 
     @GetMapping("/search")
     public ResponseEntity<UserResponseDto> getUserByUsername(@RequestParam String username) {
-        UserResponseDto user = userService.getByUsername(username);
-        return ResponseEntity.ok(user);
+        return null;
     }
 
     @PostMapping
     public ResponseEntity<UserResponseDto> create(@RequestBody @Valid UserCreateDto userCreateDto) {
-        return ResponseEntity.ok(userService.create(userCreateDto));
+        return null;
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        userService.delete(id);
-        return ResponseEntity.noContent().build();
+        return null;
     }
 }
