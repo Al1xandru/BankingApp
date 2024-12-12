@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.web.bankingapp.converter.UserCreateConverter;
 import org.web.bankingapp.dto.UserCreateDto;
 import org.web.bankingapp.dto.UserResponseDto;
+import org.web.bankingapp.entity.Account;
 import org.web.bankingapp.entity.User;
 import org.web.bankingapp.exception.UserNotFoundException;
 import org.web.bankingapp.repository.UsersRepository;

@@ -15,12 +15,10 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private UserService userService;
 
-    @Override
-    public Account create(Account account, String username) {
-        User user = userService.getByUsername(username);
-        user.addAccount(account);
-        accountRepository.save(account);
-        return account;
+    public Account create(Account account, Long userId) {
+        User user = userService.getById(userId);
+        account.setUser(user);
+        return accountRepository.save(account);
     }
 
     @Override

@@ -1,20 +1,17 @@
 package org.web.bankingapp.dto;
-
+import org.web.bankingapp.entity.User;
 import org.web.bankingapp.enums.CurrencyType;
 
-public class AccountCreationRequest {
-    private String username;
+public class AccountDto {
+
     private String accountNumber;
     private Double balance;
+    private Long userId;
 
-
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public AccountDto(String accountNumber, Double balance, Long userId) {
+        this.accountNumber = accountNumber;
+        this.balance = balance;
+        this.userId = userId;
     }
 
     public String getAccountNumber() {
@@ -31,5 +28,13 @@ public class AccountCreationRequest {
 
     public void setBalance(Double balance) {
         this.balance = balance;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

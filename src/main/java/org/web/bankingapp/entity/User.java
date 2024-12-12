@@ -1,5 +1,6 @@
 package org.web.bankingapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -17,9 +18,9 @@ public class User {
     private String email;
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private List<Account> accounts = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Account> accounts;
 
     public User() {
     }
@@ -68,9 +69,5 @@ public class User {
 
     public void setAccounts(List<Account> accounts) {
         this.accounts = accounts;
-    }
-
-    public void addAccount(Account account) {
-        this.accounts.add(account);
     }
 }

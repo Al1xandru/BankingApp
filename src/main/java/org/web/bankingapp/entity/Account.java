@@ -1,5 +1,6 @@
 package org.web.bankingapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import org.web.bankingapp.enums.CurrencyType;
 
@@ -17,6 +18,11 @@ public class Account {
     private CurrencyType currencyType;
 
     private double balance;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference
+    private User user;
 
     //-------------------------------------------------------------------------------------------------
 
@@ -54,5 +60,13 @@ public class Account {
 
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
