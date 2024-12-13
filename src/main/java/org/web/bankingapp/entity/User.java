@@ -2,6 +2,7 @@ package org.web.bankingapp.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import org.web.bankingapp.enums.Role;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,9 @@ public class User {
     private String username;
     private String email;
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.ROLE_USER;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference
@@ -69,5 +73,13 @@ public class User {
 
     public void setAccounts(List<Account> accounts) {
         this.accounts = accounts;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

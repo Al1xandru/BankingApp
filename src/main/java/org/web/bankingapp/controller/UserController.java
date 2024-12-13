@@ -3,11 +3,15 @@ package org.web.bankingapp.controller;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.web.bankingapp.converter.Converter;
 import org.web.bankingapp.dto.UserCreateDto;
 import org.web.bankingapp.dto.UserResponseDto;
 import org.web.bankingapp.entity.User;
+import org.web.bankingapp.security.AuthenticationService;
+import org.web.bankingapp.security.model.JwtAuthenticationResponse;
+import org.web.bankingapp.security.model.SignInRequest;
 import org.web.bankingapp.service.UserService;
 
 import java.util.List;
@@ -22,6 +26,17 @@ public class UserController {
 
     @Autowired
     private Converter<User, UserCreateDto, UserResponseDto> createConverter;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthenticationService authenticationService;
+
+    @PostMapping("/login")
+    public JwtAuthenticationResponse login(@RequestBody SignInRequest request) {
+        return authenticationService.authenticate(request);
+    }
 
     @GetMapping
     public List<UserResponseDto> getAll() {
@@ -44,8 +59,7 @@ public class UserController {
     public UserResponseDto create(@RequestBody @Valid UserCreateDto userCreateDto) {
         User user = createConverter.toEntity(userCreateDto);
         user.setUsername(userCreateDto.getUsername());
-        user.setPassword(userCreateDto.getPassword());
-        user.setPassword(userCreateDto.getPassword());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return createConverter.toDto(userService.create(user));
     }
 
